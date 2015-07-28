@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<launch>
+
+	<param name="robot_description" command="$(find xacro)/xacro.py $(find teleop_description)/urdf_auto.urdf.xacro" />
+	<param name="use_gui" value="True"/>
+	 <!--<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" ></node>
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" /> 
+	
+ <node pkg="tf" type="static_transform_publisher" name="map_nav_broadcaster" args="0 0 0 0 0 0 map base_link 100"/>
+-->
+<node
+    name="robot_state"
+    pkg="robot_state"
+    type="robot_state" output="screen" />
+<node
+    name="tele_serial"
+    pkg="teleop_serial"
+    type="teleop_serial" output="screen" />
+<!-- node name="rviz" pkg="rviz" type="rviz" / -->
+<node name="sound_play" pkg="sound_play" type="soundplay_node.py" />
+<node name="robot_sound" pkg="robot_sound" type="robot_sound" />
+<node name="rqt" pkg="rqt_gui" type="rqt_gui" />
+<node name="write_data" pkg="write_data" type="write_data" />
+<!--node name="joy" pkg="joy" type="joy_node" /-->
+<node name="robot_control" pkg="robot_control" type="robot_control" />
+<node name="hokuyo" pkg="hokuyo_node" type="hokuyo_node">
+<param name="port" value="/dev/hokuyo" />
+<param name="intensity" type="bool" value="false"/>
+<param name="min_ang" value="-2.356"/>   
+<param name="max_ang" value="2.356"/>    
+</node>
+<node name="laser_control" pkg="laser_control" type="laser_control" /> 
+<node
+    name="imu_display"
+    pkg="imu_serial"
+    type="imu_serial" output="screen" />
+    <node name="arm_control" pkg="arm_control" type="arm_control" output="screen"/>
+    <node name="position_calculation" pkg="position_calculation" type="position_calculation" output="screen" />
+
+</launch>

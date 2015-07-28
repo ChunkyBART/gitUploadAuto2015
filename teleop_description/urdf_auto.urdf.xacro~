@@ -1,0 +1,396 @@
+<?xml version="1.0"?>
+<robot name="auto_robot" xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:xacro="http://ros.org/wiki/xacro">
+  <gazebo reference="laser">
+        <sensor type="ray" name="hokuyo">
+          <always_on>true</always_on>
+          <update_rate>40</update_rate>
+          <pose>0 0 0 0 0 0</pose>
+          <visualize>false</visualize>
+          <ray>
+            <scan>
+              <horizontal>
+                <samples>1024</samples>
+                <resolution>1</resolution>
+                <min_angle>2.26</min_angle>
+                <max_angle>-2.26</max_angle>
+              </horizontal>
+            </scan>
+            <range>
+              <min>0.08</min>
+              <max>30.0</max>
+              <resolution>0.01</resolution>
+            </range>
+          </ray>
+          <plugin name="gazebo_ros_hokuyo_controller" filename="libgazebo_ros_laser.so">
+            <gaussianNoise>0.005</gaussianNoise>
+            <alwaysOn>true</alwaysOn>
+            <updateRate>40</updateRate>
+            <topicName>/scan</topicName>
+            <frameName>laser</frameName>
+          </plugin>
+        </sensor>
+
+ 
+      </gazebo>
+
+
+	<link name="base_footprint">
+			<origin xyz="0 0 0" rpy="1.57075 0 0"/>
+	</link>
+	<link name="imu">
+	
+	</link>
+	<link name="camera_link">
+	
+	</link>
+	<link name="base_link">
+		<visual>
+
+			<geometry>
+
+				<mesh filename="package://teleop_description/mesh/auto_base.DAE"/>
+
+ 				<box size="0.6 .2 .1"/>
+			
+			</geometry>
+			<origin xyz="0 0 0" rpy="1.57075 0 0"/>
+			<material name="blue">
+           			<color rgba="0 0 .8 1"/>
+  		       </material>
+		</visual>
+	</link>
+     
+      <link name="laser">
+        <inertial>
+          <mass value="0.270" />
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <inertia ixx="2.632e-4" ixy="0" ixz="0" iyy="2.632e-4" iyz="0" izz="1.62e-4" />
+        </inertial>
+        <visual>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+          <mesh filename="package://hector_sensors_description/meshes/hokuyo_utm30lx/hokuyo_utm_30lx.dae"/>
+        </geometry>
+        </visual>
+        <collision>
+          <origin xyz="0 0 -0.0115" rpy="0 0 0" />
+          <geometry>
+          <box size="0.058 0.058 0.087" />
+          <!--<mesh filename="package://hector_sensors_description/meshes/hokuyo_utm30lx/hokuyo_utm_30lx.stl"/>-->
+        </geometry>
+        </collision>
+      </link>
+
+	<link name="LFrontLeg_link">
+ 		<inertial>
+                        <origin xyz="0 0 0" rpy="0 0 0"/>
+                               <mass value="0.02"/>
+                        <inertia ixx="0.0002" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0002"/>
+                </inertial>
+		<visual>
+			<geometry>
+				<mesh filename="package://teleop_description/mesh/auto_FrontLeg.DAE"/>
+			</geometry>
+			<origin xyz="0 0.085 0" rpy="1.57075 0 0"/>
+			<material name="white">
+           			<color rgba="1 1 1 1"/>
+  		       </material>
+		</visual>
+	</link>
+
+	<link name="LBackLeg_link">
+		<visual>
+			<geometry>
+				<mesh filename="package://teleop_description/mesh/auto_BackLeg.DAE"/>
+			</geometry>
+			
+			<origin xyz="0 0.085 0" rpy="1.57075 0 0"/>
+			<material name="white">
+           			<color rgba="1 1 1 1"/>
+  		       </material>
+		</visual>
+	</link>
+
+	<link name="RFrontLeg_link">
+	<inertial>
+                        <origin xyz="0 0 0" rpy="0 0 0"/>
+                        <mass value="0.02"/>
+                        <inertia ixx="0.0002" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0002"/>
+                </inertial>
+		<visual>
+			<geometry>
+				<mesh filename="package://teleop_description/mesh/auto_FrontLeg.DAE"/>
+			</geometry>
+			
+			<origin xyz="0 0 0" rpy="1.57075 0 0"/>
+			<material name="white">
+           			<color rgba="1 1 1 1"/>
+  		       </material>
+		</visual>
+	</link>
+
+	<link name="RBackLeg_link">
+		<visual>
+			<geometry>
+				<mesh filename="package://teleop_description/mesh/auto_BackLeg.DAE"/>
+			</geometry>
+			
+			<origin xyz="0 0 0" rpy="1.57075 0 0"/>
+			<material name="white">
+           			<color rgba="1 1 1 1"/>
+  		       </material>
+		</visual>
+	</link>
+
+<link name="top_link">
+		<visual>
+			<geometry>
+				<mesh filename="package://teleop_description/mesh/auto_top.DAE"/>
+			</geometry>
+			<origin xyz="0 0 0" rpy="1.57075 0 0"/>
+		<material name="red">
+           			<color rgba="0.8 0 0 1"/>
+   			</material>
+		</visual>
+	</link>
+
+
+
+	<link name="mani0_link">
+		<visual>
+			<geometry>
+				<mesh filename="package://teleop_description/mesh/auto_mani0.DAE"/>
+			</geometry>
+			<origin xyz="0 0 0" rpy="1.57075 0 0"/>
+		</visual>
+	</link>
+
+	<link name="mani1_link">
+		<visual>
+			<geometry>
+				<mesh filename="package://teleop_description/mesh/auto_mani1.DAE"/>
+			</geometry>
+			<origin xyz="0 0 0" rpy="1.57075 0.143 0"/>
+		</visual>
+	</link>
+
+	<link name="mani2_link">
+		<visual>
+			<geometry>
+				<mesh filename="package://teleop_description/mesh/auto_mani2.DAE"/>
+			</geometry>
+			<origin xyz="0 0 0" rpy="1.57075 -0.4957 0"/>
+		</visual>
+	</link>
+	<link name="mani3_link">
+		<visual>
+			<geometry>
+				<mesh filename="package://teleop_description/mesh/auto_mani3.DAE"/>
+			</geometry>
+			<origin xyz="0 0 0.007" rpy="1.57075 0 0"/>
+		</visual>
+	</link>
+
+	<link name="mani4_link">
+		<visual>
+			<geometry>
+				<mesh filename="package://teleop_description/mesh/auto_mani4.DAE"/>
+			</geometry>
+			<origin xyz="0 0 0.007" rpy="1.57075 0 0"/>
+		</visual>
+	</link>
+
+	<link name="mani5_link">
+		<visual>
+			<geometry>
+				<mesh filename="package://teleop_description/mesh/auto_mani5.DAE"/>
+			</geometry>
+			<origin xyz="0 0 0" rpy="1.57075 0 0"/>
+		</visual>
+	</link>
+
+	<link name="endeffector_link">
+		<visual>
+			<geometry>
+				<mesh filename="package://teleop_description/mesh/auto_endeffector.DAE"/>
+			</geometry>
+			<origin xyz="0 0 0" rpy="1.57075 0 0"/>
+		</visual>
+	</link>
+
+	
+	<joint name="LFrontLeg_joint" type="continuous">
+	
+		<parent link="base_link"/>
+		<child link="LFrontLeg_link"/>
+		<origin xyz="0.203 0.178 -0.075" rpy="0 0 0"/>
+		<axis xyz="0 1 0"/>
+		<limit effort="100" velocity="100"/>
+		<joint_propreties damping="0.0" friction="0.0"/>
+		<anchor xyz="0 0 0"/>
+	</joint>
+
+	<joint name="LBackLeg_joint" type="continuous">
+		<parent link="base_link"/>
+		<child link="LBackLeg_link"/>
+		<origin xyz="-0.203 0.178 -0.075" rpy="0 0 0"/>	
+		<axis xyz="0 1 0"/>
+	</joint>
+
+	<joint name="RFrontLeg_joint" type="continuous">
+		<parent link="base_link"/>
+		<child link="RFrontLeg_link"/>
+		<origin xyz="0.203 -0.178 -0.075" rpy="0 0 0"/>
+		<axis xyz="0 1 0"/>	
+		<limit effort="100" velocity="100"/>
+		<joint_propreties damping="0.0" friction="0.0"/>
+		<anchor xyz="0 0 0"/>		
+	</joint>
+
+	<joint name="RBackLeg_joint" type="continuous">
+		<parent link="base_link"/>
+		<child link="RBackLeg_link"/>
+		<origin xyz="-0.203 -0.178 -0.075" rpy="0 0 0"/>
+		<axis xyz="0 1 0"/>
+	</joint>
+
+<joint name="top_joint" type="fixed">
+		<parent link="base_link"/>
+		<child link="top_link"/>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+	</joint>
+	<joint name="camera_frame" type="fixed">
+		<parent link="base_link"/>
+		<child link="camera_link"/>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+	</joint>
+	
+		
+	<joint name="base_link" type="fixed">
+		<parent link="base_footprint"/>
+		<child link="base_link"/>
+		<origin xyz="0 0 1" rpy="0 0 0"/>
+	</joint>
+	 <joint name="imu_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="imu"/>
+	<origin xyz="0.2 0 0" rpy="0 0 0"/>
+      </joint>
+	 <joint name="hokuyo_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="laser"/>
+	<origin xyz="0.3 0 0.2" rpy="0 0 0"/>
+      </joint>
+	<joint name="mani0_joint" type="continuous">
+		<parent link="base_link"/>
+		<child link="mani0_link"/>
+		<origin xyz="0.1885 0 0" rpy="0 0 0"/>
+		<axis xyz="0 0 1"/>
+	</joint>
+
+	<joint name="mani1_joint" type="continuous">
+		<parent link="mani0_link"/>
+		<child link="mani1_link"/>
+		<origin xyz="0 0 0.145" rpy="0 0 0"/>
+		<axis xyz="0 1 0"/>
+	</joint>
+
+	<joint name="mani2_joint" type="continuous">
+		<parent link="mani1_link"/>
+		<child link="mani2_link"/>
+		<origin xyz="-0.36 0 0.08" rpy="0 0 0"/>
+		<axis xyz="0 1 0"/>
+	</joint>
+
+	<joint name="mani3_joint" type="fixed">
+		<parent link="mani2_link"/>
+		<child link="mani3_link"/>
+		<origin xyz="0.05 0 0.015" rpy="0 0 0"/>
+	</joint>
+
+	<joint name="mani4_joint" type="prismatic">
+		<parent link="mani3_link"/>
+		<child link="mani4_link"/>
+		<origin xyz="0.391 0 0" rpy="0 0 0"/>
+		<limit effort="1000.0" lower="0.18" upper="0" velocity="0.5"/>
+	</joint>
+
+	<joint name="mani5_joint" type="continuous">
+		<parent link="mani4_link"/>
+		<child link="mani5_link"/>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<axis xyz="1 0 0"/>
+	</joint>
+
+	<joint name="endeffector_joint" type="continuous">
+		<parent link="mani5_link"/>
+		<child link="endeffector_link"/>
+		<origin xyz="0.09 0 0" rpy="0 0 0"/>
+		<axis xyz="0 1 0"/>
+	</joint>
+ 	
+ <!--<gazebo>
+   <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryFrame>nav</odometryFrame>
+      <odometryTopic>pose_odom</odometryTopic>
+      <odometryRate>5</odometryRate>
+      <robotBaseFrame>base_link</robotBaseFrame>
+	<updateRate>20.0</updateRate>
+    </plugin>
+  </gazebo>-->
+        <!-- Transmission is important to link the joints and the controller -->
+         <transmission name="joint_w1_trans" type="SimpleTransmission">
+                <actuator name="joint_w1_motor" />
+                <joint name="LFrontLeg_joint" />
+                <mechanicalReduction>1</mechanicalReduction>
+                <motorTorqueConstant>1</motorTorqueConstant>
+        </transmission>
+
+        <transmission name="joint_w2_trans" type="SimpleTransmission">
+                <actuator name="joint_w2_motor" />
+                <joint name="RFrontLeg_joint" />
+                <mechanicalReduction>1</mechanicalReduction>
+                <motorTorqueConstant>1</motorTorqueConstant>
+        </transmission>
+
+       
+        <gazebo reference="base_link">
+          <material>Gazebo/Green</material>
+        </gazebo>
+
+        <gazebo reference="LFrontLeg_link">
+          <material>Gazebo/Red</material>
+        </gazebo>
+
+        <gazebo reference="RFrontLeg_link">
+          <material>Gazebo/Blue</material>
+        </gazebo>
+
+
+ <gazebo>
+      <plugin name="differential_drive_controller_back" filename="libgazebo_ros_diff_drive.so">
+<alwaysOn>true</alwaysOn>
+<updateRate>100.0</updateRate>
+<leftJoint>LFrontLeg_joint</leftJoint>
+<rightJoint>RFrontLeg_joint</rightJoint>
+<wheelSeparation>0.5</wheelSeparation>
+<wheelDiameter>0.5</wheelDiameter>
+<torque>100</torque>
+<commandTopic>cmd_vel</commandTopic>
+<odometryTopic>odom</odometryTopic>
+<odometryFrame>nav</odometryFrame>
+<robotBaseFrame>base_link</robotBaseFrame>
+</plugin>
+
+  </gazebo> 
+
+ <sensor name="temp" update_rate="20">
+   <parent link="endeffector_link"/>
+   <origin xyz="0 0 0" rpy="0 0 0"/>
+  
+ </sensor>
+</robot>
